@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <title>Käristyykö Krakovassa?</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+  .fakeimg {
+    height: 200px;
+    background: #ec1212;
+  }
+  </style>
+</head>
+<body>
+
+<div class="p-5 bg-danger text-white text-center">
+  <h1>Käristyykö Krakovassa?</h1>
+  <p>Oletko miettinyt mikä sää on tällä hetkellä Krakovassa? <br>
+    Tämän sivun avulla tiedät!</p> 
+</div>
+
+<div id="vastaus" class="text-center"> 
+
+</div>
+
+<!-- Carousel -->
+<div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+    <!-- Indicators/dots -->
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+    </div>
+  
+    <!-- The slideshow/carousel -->
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://media.istockphoto.com/id/1482450755/fi/valokuva/krakova-puola-y%C3%B6n-kaupunki.jpg?s=2048x2048&w=is&k=20&c=B35h7up_cjcDFuI2aldKHHlCvY5cGbWT__sMJ7HprXk=" alt="Krakow Wavel castle" class="d-block w-100">
+      </div>
+      <div class="carousel-item">
+        <img src="https://media.istockphoto.com/id/1482450553/fi/valokuva/krakova-puola-y%C3%B6n-kaupunki.jpg?s=2048x2048&w=is&k=20&c=bh2J7bKVh0EPEK7v7cj3fT52EsweEDYZqJorgEVjojE=" alt="Krakow rynek at night" class="d-block w-100">
+      </div>
+      <div class="carousel-item">
+        <img src="https://media.istockphoto.com/id/1482455963/fi/valokuva/krakova-puola-y%C3%B6n-kaupunki.jpg?s=2048x2048&w=is&k=20&c=R0EnDMcMZCiho0IjyL09nwJSonsFBzgQ-l9Jh7q9ds4=" alt="Krakow center at night" class="d-block w-100">
+      </div>
+    </div>
+  
+    <!-- Left and right controls/icons -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+  <script>
+
+fetch('https://api.openweathermap.org/data/2.5/weather?lang=fi&q=krakow&units=metric&APPID=314de1b8dabfbace7321a5ff474e27d1')
+// Muunnetaan vastaus JSON muotoon
+.then(function (response) { return response.json();
+})
+
+// Käsitellään muunnettu (eli JSON muotoinen) vastaus
+.then(function (responseJson) {
+
+// kutsutaan saa-funktiota
+saa(responseJson);
+})
+
+// Jos tuli jokin virhe
+.catch(function (error) { document.getElementById("vastaus").innerHTML = "<p>Tietoa ei pystytä hakemaan</p>";
+})
+
+    
+function saa(data){
+var teksti = ""; // määritellään muuttuja, johon tulostettava tieto kerätään
+
+// otsikkotiedon hakeminen ja sijoittaminen h1-elementtiin
+teksti = "<h1>" + data.name + "</h1>" + "<br>" +
+    "<h2>" + "Sääkuvaus: " + data.weather[0].description + "<br>" + 
+    "Lämpötila: " + data.main.temp + "&deg;" + "C" + "</h2>";
+
+     var kuva = 'http://openweathermap.org/img/w/' + data.weather[0].icon + '.png';
+     teksti = teksti + "<p><img src='" + kuva + "' alt='kuva' ></p>";
+
+// teksti-muuttujan sisällön tulostus
+document.getElementById("vastaus").innerHTML = teksti;
+}
+
+    
+    
+    
+    </script>
+
+<div class="mt-5 p-4 bg-dark text-white text-center">
+  <p>Käristyykö Krakovassa? <br>
+    &copy; Matti Jalkanen <br> 
+    2024</p>
+</div>
+
+</body>
+</html>
